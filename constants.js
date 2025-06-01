@@ -20,6 +20,8 @@ export const ID_CUSTOM_ICON_URL = `${EXTENSION_NAME}-custom-icon-url`;
 // --- 新增ID ---
 export const ID_CUSTOM_ICON_SIZE_INPUT = `${EXTENSION_NAME}-custom-icon-size`;
 export const ID_FA_ICON_CODE_INPUT = `${EXTENSION_NAME}-fa-icon-code`;
+export const ID_ICON_SIZE_INPUT = `${EXTENSION_NAME}-icon-size`;
+export const ID_ICON_SIZE_RESET = `${EXTENSION_NAME}-icon-size-reset`;
 // --- 结束新增 ---
 export const ID_COLOR_MATCH_CHECKBOX = `${EXTENSION_NAME}-color-match`;
 
@@ -48,6 +50,7 @@ export const ID_USAGE_PANEL = `${EXTENSION_NAME}-usage-panel`;
 
 export const ID_CUSTOM_ICON_SAVE = `${EXTENSION_NAME}-custom-icon-save`;
 export const ID_CUSTOM_ICON_SELECT = `${EXTENSION_NAME}-custom-icon-select`;
+export const ID_CUSTOM_ICON_DELETE = `${EXTENSION_NAME}-custom-icon-delete`;
 
 // --- 默认图标选项 ---
 export const ICON_TYPES = {
@@ -83,3 +86,4 @@ export const DEFAULT_MENU_STYLES = {
 
 // --- 默认图标大小 ---
 export const DEFAULT_CUSTOM_ICON_SIZE = 20;
+export const DEFAULT_ICON_SIZE = 20;
