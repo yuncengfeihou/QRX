@@ -69,7 +69,13 @@ export function updateIconDisplay() {
         // 颜色和大小由按钮样式控制
         button.innerHTML = faIconCode.trim();
         const iconEl = button.querySelector('i');
-        if (iconEl) iconEl.style.fontSize = `${settings.iconSize || Constants.DEFAULT_ICON_SIZE}px`;
+        if (iconEl) {
+            if (settings.iconSize) {
+                iconEl.style.fontSize = `${settings.iconSize}px`;
+            } else {
+                iconEl.style.fontSize = '';
+            }
+        }
     } else {
         // 使用预设的 FontAwesome 图标
         const iconClass = Constants.ICON_CLASS_MAP[iconType] || Constants.ICON_CLASS_MAP[Constants.ICON_TYPES.ROCKET];
@@ -78,12 +84,24 @@ export function updateIconDisplay() {
             // 颜色将由按钮的 primary/secondary 类和 FA 的 CSS 控制
             button.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
             const iconEl = button.querySelector('i');
-            if (iconEl) iconEl.style.fontSize = `${settings.iconSize || Constants.DEFAULT_ICON_SIZE}px`;
+            if (iconEl) {
+                if (settings.iconSize) {
+                    iconEl.style.fontSize = `${settings.iconSize}px`;
+                } else {
+                    iconEl.style.fontSize = '';
+                }
+            }
         } else {
             // 默认或回退图标
              button.innerHTML = `<i class="fa-solid ${Constants.ICON_CLASS_MAP[Constants.ICON_TYPES.ROCKET]}"></i>`;
             const iconEl = button.querySelector('i');
-            if (iconEl) iconEl.style.fontSize = `${settings.iconSize || Constants.DEFAULT_ICON_SIZE}px`;
+            if (iconEl) {
+                if (settings.iconSize) {
+                    iconEl.style.fontSize = `${settings.iconSize}px`;
+                } else {
+                    iconEl.style.fontSize = '';
+                }
+            }
         }
     }
 
@@ -386,7 +404,7 @@ export function createSettingsHtml() {
 
                 <div class="flex-container flexGap5" style="margin:10px 0; align-items:center;">
                     <label for="${Constants.ID_ICON_SIZE_INPUT}">图标大小:</label>
-                    <input type="number" id="${Constants.ID_ICON_SIZE_INPUT}" min="16" max="40" style="width:60px;" value="${Constants.DEFAULT_ICON_SIZE}">
+                    <input type="number" id="${Constants.ID_ICON_SIZE_INPUT}" min="16" max="40" style="width:60px;">
                     <button id="${Constants.ID_ICON_SIZE_RESET}" class="menu_button" style="width:auto; padding:0 10px;">恢复默认大小</button>
                 </div>
 
@@ -492,7 +510,8 @@ export function handleSettingsChange(event) {
         settings.customIconSize = parseInt(event.target.value, 10) || Constants.DEFAULT_CUSTOM_ICON_SIZE;
     }
     else if (targetId === Constants.ID_ICON_SIZE_INPUT) {
-        settings.iconSize = parseInt(event.target.value, 10) || Constants.DEFAULT_ICON_SIZE;
+        const parsed = parseInt(event.target.value, 10);
+        settings.iconSize = isNaN(parsed) ? null : parsed;
     }
     else if (targetId === Constants.ID_FA_ICON_CODE_INPUT) {
         settings.faIconCode = event.target.value;
@@ -535,7 +554,10 @@ function saveSettings() {
     }
     
     if (customIconSizeInput) settings.customIconSize = parseInt(customIconSizeInput.value, 10) || Constants.DEFAULT_CUSTOM_ICON_SIZE;
-    if (iconSizeInput) settings.iconSize = parseInt(iconSizeInput.value, 10) || Constants.DEFAULT_ICON_SIZE;
+    if (iconSizeInput) {
+        const parsedSize = parseInt(iconSizeInput.value, 10);
+        settings.iconSize = isNaN(parsedSize) ? null : parsedSize;
+    }
     if (faIconCodeInput) settings.faIconCode = faIconCodeInput.value;
     if (colorMatchCheckbox) settings.matchButtonColors = colorMatchCheckbox.checked;
 
@@ -717,7 +739,7 @@ export function loadAndApplySettings() {
     settings.iconType = settings.iconType || Constants.ICON_TYPES.ROCKET;
     settings.customIconUrl = settings.customIconUrl || '';
     settings.customIconSize = settings.customIconSize || Constants.DEFAULT_CUSTOM_ICON_SIZE;
-    settings.iconSize = settings.iconSize || Constants.DEFAULT_ICON_SIZE;
+    if (settings.iconSize === undefined) settings.iconSize = null;
     settings.faIconCode = settings.faIconCode || '';
     settings.matchButtonColors = settings.matchButtonColors !== false; // 默认匹配颜色
 
@@ -746,7 +768,7 @@ export function loadAndApplySettings() {
     if (customIconSizeInput) customIconSizeInput.value = settings.customIconSize;
 
     const iconSizeInput = document.getElementById(Constants.ID_ICON_SIZE_INPUT);
-    if (iconSizeInput) iconSizeInput.value = settings.iconSize;
+    if (iconSizeInput) iconSizeInput.value = settings.iconSize ?? '';
 
     const faIconCodeInput = document.getElementById(Constants.ID_FA_ICON_CODE_INPUT); 
     if (faIconCodeInput) faIconCodeInput.value = settings.faIconCode;
@@ -945,9 +967,9 @@ function deleteCurrentCustomIcon() {
  */
 export function resetIconSize() {
     const settings = extension_settings[Constants.EXTENSION_NAME];
-    settings.iconSize = Constants.DEFAULT_ICON_SIZE;
+    settings.iconSize = null;
     const input = document.getElementById(Constants.ID_ICON_SIZE_INPUT);
-    if (input) input.value = settings.iconSize;
+    if (input) input.value = '';
     updateIconDisplay();
     const saveStatus = document.getElementById('qr-save-status');
     if (saveStatus) {
