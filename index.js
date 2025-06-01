@@ -20,7 +20,7 @@ if (!window.extension_settings[Constants.EXTENSION_NAME]) {
         iconType: Constants.ICON_TYPES.ROCKET,
         customIconUrl: '',
         customIconSize: Constants.DEFAULT_CUSTOM_ICON_SIZE,
-        iconSize: Constants.DEFAULT_ICON_SIZE,
+        iconSize: null,
         faIconCode: '',
         matchButtonColors: true,
         menuStyles: JSON.parse(JSON.stringify(Constants.DEFAULT_MENU_STYLES)),
@@ -115,7 +115,10 @@ function initializePlugin() {
                 }
 
                 if (customIconSizeInput) settings.customIconSize = parseInt(customIconSizeInput.value, 10) || Constants.DEFAULT_CUSTOM_ICON_SIZE;
-                if (iconSizeInput) settings.iconSize = parseInt(iconSizeInput.value, 10) || Constants.DEFAULT_ICON_SIZE;
+                if (iconSizeInput) {
+                    const parsed = parseInt(iconSizeInput.value, 10);
+                    settings.iconSize = isNaN(parsed) ? null : parsed;
+                }
                 if (faIconCodeInput) settings.faIconCode = faIconCodeInput.value;
                 if (colorMatchCheckbox) settings.matchButtonColors = colorMatchCheckbox.checked;
 
@@ -198,7 +201,7 @@ function loadAndApplyInitialSettings() {
     settings.iconType = settings.iconType || Constants.ICON_TYPES.ROCKET;
     settings.customIconUrl = settings.customIconUrl || '';
     settings.customIconSize = settings.customIconSize || Constants.DEFAULT_CUSTOM_ICON_SIZE;
-    settings.iconSize = settings.iconSize || Constants.DEFAULT_ICON_SIZE;
+    if (settings.iconSize === undefined) settings.iconSize = null;
     settings.faIconCode = settings.faIconCode || '';
     settings.matchButtonColors = settings.matchButtonColors !== false;
     settings.menuStyles = settings.menuStyles || JSON.parse(JSON.stringify(Constants.DEFAULT_MENU_STYLES));
