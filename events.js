@@ -6,7 +6,7 @@ import { updateMenuVisibilityUI } from './ui.js';
 import { triggerQuickReply, triggerJsRunnerScript } from './api.js';
 // 导入 settings.js 中的函数用于处理设置变化和UI更新
 // handleSettingsChange, handleUsageButtonClick, closeUsagePanel, updateIconDisplay 都在 settings.js 中定义和导出
-import { handleSettingsChange, handleUsageButtonClick, closeUsagePanel, updateIconDisplay } from './settings.js';
+import { handleSettingsChange, handleUsageButtonClick, closeUsagePanel, updateIconDisplay, resetIconSize } from './settings.js';
 // 导入 index.js 的设置对象 (用于样式函数)
 import { extension_settings } from './index.js'; // Assuming index.js exports extension_settings
 
@@ -473,6 +473,7 @@ export function setupEventListeners() {
     safeAddListener(Constants.ID_ICON_TYPE_DROPDOWN, 'change', handleSettingsChange);
     safeAddListener(Constants.ID_CUSTOM_ICON_URL, 'input', handleSettingsChange);
     safeAddListener(Constants.ID_CUSTOM_ICON_SIZE_INPUT, 'input', handleSettingsChange);
+    safeAddListener(Constants.ID_ICON_SIZE_INPUT, 'input', handleSettingsChange);
     safeAddListener(Constants.ID_FA_ICON_CODE_INPUT, 'input', handleSettingsChange);
     safeAddListener(Constants.ID_COLOR_MATCH_CHECKBOX, 'change', handleSettingsChange);
 
@@ -488,6 +489,7 @@ export function setupEventListeners() {
     safeAddListener(`${Constants.ID_MENU_STYLE_PANEL}-close`, 'click', closeMenuStylePanel); // from this file
     safeAddListener(`${Constants.ID_MENU_STYLE_PANEL}-apply`, 'click', applyMenuStyles); // from this file
     safeAddListener(Constants.ID_RESET_STYLE_BUTTON, 'click', resetMenuStyles); // from this file
+    safeAddListener(Constants.ID_ICON_SIZE_RESET, 'click', resetIconSize);
 
     // 不透明度滑块监听
     safeAddListener('qr-item-opacity', 'input', function(e) {

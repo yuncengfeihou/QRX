@@ -20,6 +20,7 @@ if (!window.extension_settings[Constants.EXTENSION_NAME]) {
         iconType: Constants.ICON_TYPES.ROCKET,
         customIconUrl: '',
         customIconSize: Constants.DEFAULT_CUSTOM_ICON_SIZE,
+        iconSize: Constants.DEFAULT_ICON_SIZE,
         faIconCode: '',
         matchButtonColors: true,
         menuStyles: JSON.parse(JSON.stringify(Constants.DEFAULT_MENU_STYLES)),
@@ -88,6 +89,7 @@ function initializePlugin() {
         sharedState.domElements.globalItemsContainer = menu.querySelector(`#${Constants.ID_GLOBAL_ITEMS}`);
         sharedState.domElements.customIconUrl = document.getElementById(Constants.ID_CUSTOM_ICON_URL);
         sharedState.domElements.customIconSizeInput = document.getElementById(Constants.ID_CUSTOM_ICON_SIZE_INPUT);
+        sharedState.domElements.iconSizeInput = document.getElementById(Constants.ID_ICON_SIZE_INPUT);
         sharedState.domElements.faIconCodeInput = document.getElementById(Constants.ID_FA_ICON_CODE_INPUT);
         sharedState.domElements.colorMatchCheckbox = document.getElementById(Constants.ID_COLOR_MATCH_CHECKBOX);
 
@@ -99,7 +101,8 @@ function initializePlugin() {
                 const enabledDropdown = document.getElementById(Constants.ID_SETTINGS_ENABLED_DROPDOWN);
                 const iconTypeDropdown = document.getElementById(Constants.ID_ICON_TYPE_DROPDOWN);
                 const customIconUrlInput = document.getElementById(Constants.ID_CUSTOM_ICON_URL); // Renamed for clarity
-                const customIconSizeInput = document.getElementById(Constants.ID_CUSTOM_ICON_SIZE_INPUT);
+               const customIconSizeInput = document.getElementById(Constants.ID_CUSTOM_ICON_SIZE_INPUT);
+                const iconSizeInput = document.getElementById(Constants.ID_ICON_SIZE_INPUT);
                 const faIconCodeInput = document.getElementById(Constants.ID_FA_ICON_CODE_INPUT);
                 const colorMatchCheckbox = document.getElementById(Constants.ID_COLOR_MATCH_CHECKBOX);
 
@@ -112,6 +115,7 @@ function initializePlugin() {
                 }
 
                 if (customIconSizeInput) settings.customIconSize = parseInt(customIconSizeInput.value, 10) || Constants.DEFAULT_CUSTOM_ICON_SIZE;
+                if (iconSizeInput) settings.iconSize = parseInt(iconSizeInput.value, 10) || Constants.DEFAULT_ICON_SIZE;
                 if (faIconCodeInput) settings.faIconCode = faIconCodeInput.value;
                 if (colorMatchCheckbox) settings.matchButtonColors = colorMatchCheckbox.checked;
 
@@ -194,6 +198,7 @@ function loadAndApplyInitialSettings() {
     settings.iconType = settings.iconType || Constants.ICON_TYPES.ROCKET;
     settings.customIconUrl = settings.customIconUrl || '';
     settings.customIconSize = settings.customIconSize || Constants.DEFAULT_CUSTOM_ICON_SIZE;
+    settings.iconSize = settings.iconSize || Constants.DEFAULT_ICON_SIZE;
     settings.faIconCode = settings.faIconCode || '';
     settings.matchButtonColors = settings.matchButtonColors !== false;
     settings.menuStyles = settings.menuStyles || JSON.parse(JSON.stringify(Constants.DEFAULT_MENU_STYLES));
